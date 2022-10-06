@@ -184,7 +184,7 @@ class FrontController extends Controller
 	    			$mobile->area=$request->area;
 	    			$mobile->landmark=$request->landmark;
 	    			$mobile->pincode=$request->pincode;
-	    			$mobile->is_active=true;
+	    			$mobile->status=true;
 	    			if($mobile->save()){
 	    				return redirect()->route('payment-type');
 	    			}else{
