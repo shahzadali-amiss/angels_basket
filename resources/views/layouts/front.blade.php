@@ -55,6 +55,81 @@
 		    display:none;
 		}
 
+		/*user profile css*/
+
+		.profile_info {
+		    position: relative;
+		    top: -12px;
+		}
+		@media (max-width: 991px)
+		.profile_info img {
+		    max-width: 30px;
+		}
+
+		.profile_info img {
+		    max-width: 42px;
+		    max-height: 42px;
+		    border-radius: 50%;
+		    cursor: pointer;
+		    background: #fff;
+		}
+		.profile_info:hover .profile_info_iner {
+		    opacity: 1;
+		    visibility: visible;
+		    top: 55px;
+		}
+
+		.profile_info .profile_info_iner {
+		    position: absolute;
+		    right: -10px;
+		    background-color: #fff;
+		    text-align: left;
+		    width: 200px;
+		    padding: 0;
+		    opacity: 0; 
+		    visibility: hidden; 
+		    top: 55px;
+		    -webkit-transition: 0.5s;
+		    transition: 0.5s;
+		    -webkit-border-radius: 15px;
+		    -moz-border-radius: 15px;
+		    border-radius: 15px;
+			}
+			.profile_info .profile_info_iner::before {
+			    position: absolute;
+			    content: '';
+			    width: 0;
+			    height: 0;
+			    border-style: solid;
+			    top: -10px;
+			    right: 15px;
+			    border-width: 0 11px 12px 11px;
+			    border-color: transparent transparent #673333 transparent;
+			    z-index: 2;
+			 }   
+			.profile_info .profile_info_iner .profile_author_name {
+				text-align: end;
+			    padding: 20px 25px;
+			    background: #673333;
+			    border-radius: 10px 15px 0px 0px;
+			}
+			.profile_info .profile_info_details {
+			    padding: 20px 25px;
+			    text-align: end;
+			}
+			.profile_info .profile_info_details a {
+			    color: #2E4765;
+			    font-size: 14px;
+			    display: block;
+			    padding: 10px 0;
+			    font-weight: 400;
+			}
+			#header1 .menu-sidepanel ul {
+		    	left: 36%;
+			}
+			#header1 .menu-sidepanel ul li {
+			    width: fit-content;
+			}    
 		</style>
 		@stack('styles')
 
@@ -109,8 +184,26 @@
     		</nav>
     		<div class="menu-sidepanel bg-theme" id="side-panel">
     			@if(Session::has('mobile'))
+
+
 	        	<div class="user-mob">
-	        		<span class="text-white font-weight-bold h3">User Id : {{Session::get('mobile')}}</span>
+	        		<!-- <span class="text-white font-weight-bold h3">User Id : {{Session::get('mobile')}}</span> -->
+    			<div class="profile_info">
+                    <img src="{{asset('/img/logo/user-logo2.png')}}" alt="#">
+                    <div class="profile_info_iner">
+                        <div class="profile_author_name">
+                            <h5 class="text-white">User Id : {{Session::get('mobile')}}</h5>
+                        </div>
+                        <div class="profile_info_details">
+                            <a href="{{route('cart')}}">CART</a>
+                        	<a href="{{route('orders')}}">MY ORDERS</a>
+                            <a href="{{route('logout')}}">LOGOUT</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                </div>
 	        	</div>
 	        	@endif
 		      	<ul>
@@ -129,22 +222,12 @@
 		        	<li>
 		        		<a href="{{route('gallery')}}" class="d-block w-100 h-100">GALLERY</a>
 		        	</li>
-		        	@if(Session::has('mobile'))
-		        	<li class="d-md-none">
-		        		<a href="{{route('cart')}}" class="d-block w-100 h-100">CART</a>
-		        	</li>
-
-		        	<li>
-		        		<a href="{{route('orders')}}" class="d-block w-100 h-100">ORDERS</a>
-		        	</li>
-		        	@endif
-		        <!-- <li><a href="blog.html" class="d-block w-100 h-100">BLOGS</a></li> -->
 		        	<li>
 		        		<a href="{{route('contact')}}" class="d-block w-100 h-100">GET IN TOUCH</a>
 		        	</li>
 		        	@if(Session::has('mobile'))
-		        	<li>
-		        		<a href="{{route('logout')}}" class="d-block w-100 h-100">LOGOUT</a>
+		        	<li class="d-md-none">
+		        		<a href="{{route('cart')}}" class="d-block w-100 h-100">CART</a>
 		        	</li>
 		        	@else
 		        	<li>
@@ -369,7 +452,8 @@
             if ($.inArray(extension,['jpg','jpeg','png']) >= 0) {
                 $(".filelabel i").removeClass().addClass('fa fa-file-image-o');
                 $(".filelabel i, .filelabel .title").css({'color':'#208440'});
-                $(".filelabel").css({'border':' 2px solid #208440'});
+                $(".filelabel").css({'border':' 2px solid #a02f2f'});
+				$(".filelabel").css({'padding':' 15px'});
             }
             else if(extension == 'pdf'){
                 $(".filelabel i").removeClass().addClass('fa fa-file-pdf-o');
@@ -381,6 +465,7 @@
 		            $(".filelabel i").removeClass().addClass('fa fa-file-word-o');
 		            $(".filelabel i, .filelabel .title").css({'color':'#2388df'});
 		            $(".filelabel").css({'border':' 2px solid #2388df'});
+
 		        }
             else{
                 $(".filelabel i").removeClass().addClass('fa fa-file-o');

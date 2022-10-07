@@ -13537,3 +13537,11 @@ input.my-check{
   margin-left: 5px;
   margin-right: 5px;
 }
+
+/*custom css 07/10/2022*/
+
+.product-img-border{
+    border-radius: 5%;
+    border: 1px solid #ddd;
+    /*padding: px;*/
+}

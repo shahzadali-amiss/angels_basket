@@ -28,7 +28,7 @@
                       <table cellpadding="10">
                         @foreach($order->getCarts as $k => $cart)
                         <tr>
-                          <td width="80px" height="80px" style="@if($k==0){{'border:none;'}}@endif"><img src="{{asset('uploads')}}/{{$cart->getProductImage->image}}" width="80px" class="rounded-circle"></td>
+                          <td width="80px" height="80px" style="@if($k==0){{'border:none;'}}@endif"><img src="{{asset('uploads')}}/{{$cart->getProductImage->image}}" width="80px" class="front-orders-image"></td>
                           <td style="@if($k==0){{'border:none;'}}@endif">{{ucwords($cart->getProduct->name)}}<br>&#x20b9; {{$cart->getProduct->offer_price}}</td>
                         </tr>
                         @endforeach
@@ -68,6 +68,11 @@
     .table-width{
       width: 450%;
     }    
+  }
+  .front-orders-image{
+      border-radius: 5%;
+      border: 1px solid #ddd;
+      padding: 5px;
   }
 </style>
 @endpush

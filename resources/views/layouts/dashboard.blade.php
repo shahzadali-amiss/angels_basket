@@ -55,13 +55,14 @@
     <!-- Styles -->
    <!--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="{{asset('adminAssets/css/style.css')}}" />
+    @stack('styles')
 
 </head>
 <body class="crm_body_bg"> 
     <nav class="sidebar">
         <div class="logo d-flex">
-            <a class="large_logo m-auto" href="index-2.html"><img src="{{asset('adminAssets/img/angels-logo1.png')}}" alt=""></a>
-            <a class="small_logo" href="index-2.html"><img src="{{asset('adminAssets/img/angels-logo2.png')}}" alt=""></a>
+            <a class="large_logo m-auto" href="{{route('admin-home')}}"><img src="{{asset('adminAssets/img/angels-logo1.png')}}" alt=""></a>
+            <a class="small_logo" href="{{route('admin-home')}}"><img src="{{asset('adminAssets/img/angels-logo2.png')}}" alt=""></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>

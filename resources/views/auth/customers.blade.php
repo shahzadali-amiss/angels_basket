@@ -68,14 +68,14 @@
 
                                         <tr>
                                             <th>{{$key+1}}</th>
-                                            <th>{{ $customer->is_active ? ucwords($customer->name):''}}</th>
-                                            <th>{{$customer->mobile}}</th>
-                                            <th>{{$customer->is_active?$customer->house:''}}</th>
-                                            <th>{{$customer->is_active?$customer->area:''}}</th>
-                                            <th>{{$customer->is_active?$customer->landmark:''}}</th>
-                                            <th>{{$customer->is_active?$customer->getCity->name:''}}</th>
-                                            <th>{{$customer->is_active?$customer->getState->name:''}}</th>
-                                            <th>{{$customer->is_active?$customer->pincode:''}}</th>
+                                            <th>{{ucwords(@$customer->name)}}</th>
+                                            <th>{{@$customer->mobile }}</th>
+                                            <th>{{@$customer->house }}</th>
+                                            <th>{{@$customer->area }}</th>
+                                            <th>{{@$customer->landmark}}</th>
+                                            <th>{{@$customer->getCity->name }}</th>
+                                            <th>{{@$customer->getState->name }}</th>
+                                            <th>{{@$customer->pincode }}</th>
                                             <th>
                                                 @if($customer->status)
                                                 <span class="text-white bg-success px-2 py-1">Active</span>

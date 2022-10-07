@@ -65,8 +65,8 @@
 
                                         <tr>
                                             <td scope="row">{{$k++}}</td>
-                                            <td class="">@foreach($images as $img)<img src="@if($items->id==$img->type_id){{ asset('uploads')}}/{{$img->image}}@endif" class="img-fluid rounded-circle">
-                                            @endforeach
+                                            <td class="">
+                                                <img src="{{ asset('uploads')}}/{{$items->image->image}}" class="img-fluid product-img-border">
                                             </td>
                                             <td>{{$items->id}}</td>
                                             <td><a href="#" class="question_content">{{$items->name}}</a></td>

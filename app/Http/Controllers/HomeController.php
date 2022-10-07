@@ -39,7 +39,7 @@ class HomeController extends Controller
     {
       $data['category']=Category::all();
       $data['product']=Product::orderBy('id', 'DESC')->get();
-      $data['images']=Images::all();
+      $data['images']=Images::where('type', 'Product')->get();
       return view('auth.products',$data);
     }
 
@@ -127,8 +127,7 @@ class HomeController extends Controller
 
     public function category()
     {
-        $data['category']=Category::orderBy('id', 'DESC')->get();
-        $data['images']=Images::all();
+        $data['category']=Category::orderBy('id', 'DESC')->with('image')->get();
         return view('auth.category',$data);
     }
 
@@ -305,6 +304,7 @@ class HomeController extends Controller
     public function viewCustomers()
     {
         $data['customers']=Customer::with(['getCity','getState'])->get();
+        // dd($data);
         return view('auth.customers',$data);
     }
 
@@ -337,7 +337,7 @@ class HomeController extends Controller
           $mobile=Customer::find($request->customer_id);
         }else{
           $request->validate([
-            'mobile'=>'required|numeric|digits:10|unique:mobiles,mobile',
+            'mobile'=>'required|numeric|digits:10|unique:customers,mobile',
             'name'=>'required',
             'state'=>'required|numeric',
             'city'=>'required|numeric',
@@ -358,7 +358,7 @@ class HomeController extends Controller
         $mobile->landmark=$request->landmark;
         $mobile->pincode=$request->pincode;
         $mobile->status=$request->status;
-        $mobile->is_active=true;
+        // $mobile->is_active=true;
         if($mobile->save()){
           if($is_edit)
             return redirect()->route('view-customers')->with('success', 'Customer updated successfully');

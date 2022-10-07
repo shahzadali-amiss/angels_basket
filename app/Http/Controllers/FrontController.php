@@ -78,12 +78,14 @@ class FrontController extends Controller
 			}else{
 				$request->validate([
 					'mobile'=>'required|numeric|digits:10',
+					// 'password'=>'required|min:8',
 				]);
 				
 				$mobile=Customer::where(['mobile'=>$request->mobile, 'status'=>true])->first();
 				if(!$mobile){
 					$mobile=new Customer();
 					$mobile->mobile=$request->mobile;
+					// $mobile->password=$request->password;
 					$mobile->status=true;
 					if(!$mobile->save()){
 						return back()->with('error','Something went wrong! Please try again.');

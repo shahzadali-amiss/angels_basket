@@ -63,7 +63,7 @@
                                           <table cellpadding="10">
                                             @foreach($order->getCarts as $k => $cart)
                                             <tr>
-                                              <td class="py-0" width="80px" height="80px" style="@if($k==0){{'border:none;'}}@endif"><img src="{{asset('uploads')}}/{{$cart->getProductImage->image}}" width="80px" class="rounded-circle"></td>
+                                              <td class="py-0" width="80px" height="80px" style="@if($k==0){{'border:none;'}}@endif"><img src="{{asset('uploads')}}/{{$cart->getProductImage->image}}" width="80px" class="rounded- product-img-border"></td>
                                               <td class="py-0" style="@if($k==0){{'border:none;'}}@endif">{{ucwords($cart->getProduct->name)}}<br>&#x20b9; {{$cart->getProduct->offer_price}}</td>
                                             </tr>
                                             @endforeach
