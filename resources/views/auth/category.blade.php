@@ -66,7 +66,7 @@
                                         <tr>
                                             <td scope="row">{{$k++}}</td>
                                             <td class="">
-                                                <img src="{{ asset('uploads')}}/{{$items->image->image}}" class="img-fluid product-img-border">
+                                                <img src="{{ asset('uploads')}}/{{$items->image}}" class="img-fluid product-img-border">
                                             </td>
                                             <td>{{$items->id}}</td>
                                             <td><a href="#" class="question_content">{{$items->name}}</a></td>

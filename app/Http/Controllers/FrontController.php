@@ -26,8 +26,7 @@ class FrontController extends Controller
 	public function index(){
 		// $data['popular']=Product::where('status', '1')->limit(4)->get();
 		$data['instagram'] =Images::where('type', 'Instagram')->orderBy('type_id')->get();
-		$data['popular'] =Product::join('images', 'products.id', '=', 'images.type_id')
-		->take(4)->get(['products.*', 'images.image']);               
+		$data['popular'] =Product::take(11)->get();               
     	return view('front.welcome', $data);
 	}
 
@@ -47,9 +46,11 @@ class FrontController extends Controller
 	}
 	
 	public function products(){
-    	$data['products'] =Product::join('images', 'products.id', '=', 'images.type_id')
-		->get(['products.*', 'images.image']);               
+  //   	$data['products'] =Product::join('images', 'products.id', '=', 'images.type_id')
+		// ->get(['products.*', 'images.image']);  
+		$data['products'] =Product::where('status', true)->get();              
 		$data['instagram'] =Images::where('type', 'Instagram')->orderBy('type_id')->get();
+		// dd($data);
     	return view('front.products', $data);
 	}
 
@@ -102,7 +103,7 @@ class FrontController extends Controller
 	}
 	public function cart(){
 		if(Session::has('mobile')){
-			$data['carts']=Cart::with('getProduct','getProductImage')->where(['mobile'=>Session::get('mobile'), 'is_in_cart'=>true])->get();
+			$data['carts']=Cart::with('getProduct')->where(['mobile'=>Session::get('mobile'), 'is_in_cart'=>true])->get();
 			return view('front.cart', $data);	
 		}else{
 			return view('front.get-mobile');	
@@ -144,7 +145,7 @@ class FrontController extends Controller
 	    		$request->validate([
 	    			'quantities.*'=>'required'
 	    		]);
-	    		$carts=Cart::with('getProduct','getProductImage')->where(['mobile'=>Session::get('mobile'),'is_in_cart'=>true])->get();
+	    		$carts=Cart::with('getProduct')->where(['mobile'=>Session::get('mobile'),'is_in_cart'=>true])->get();
 	    		foreach ($carts as $key => $value) {
 	    			$value->quantity=$request->quantities[$key];
 	    			$value->save();

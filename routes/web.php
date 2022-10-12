@@ -72,6 +72,7 @@ Route::get('/admin', 'HomeController@index')->name('admin-home');
 Route::get('/admin/products', 'HomeController@product')->name('products');
 Route::any('/admin/products/add-product', 'HomeController@manageProduct')->name('addProduct');
 Route::any('/admin/products/edit-product/{id}', 'HomeController@manageProduct')->name('editProduct');
+Route::any('/admin/product/add-product-images', 'HomeController@productImage')->name('productImage');
 Route::any('/admin/products/delete-product/{id}', 'HomeController@deleteProduct')->name('deleteProduct');
 
 Route::get('/admin/categories', 'HomeController@category')->name('categories');
@@ -95,3 +96,4 @@ Route::get('/admin/customers/delete-customer/{id}', 'HomeController@deleteCustom
 
 Route::any('/admin/customers/add-customer/', 'HomeController@addCustomer')->name('add-customer');
 Route::any('/admin/customers/edit-customer/{id}', 'HomeController@addCustomer')->name('edit-customer');
+

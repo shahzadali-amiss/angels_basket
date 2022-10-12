@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Models\City;
+use App\Models\Images;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -48,5 +49,28 @@ class Controller extends BaseController
             return response()->json(['status'=>true, 'data'=>$cities], 200);
         else
             return response()->json(['status' => false]);
-    }	
+    }
+
+    protected function deleteImage($id){
+        if($id!=null && $id!=""){
+            $image = Images::find($id);
+            if($image!=null){
+                if($image->delete()){
+                    if(file_exists(public_path("/uploads/".$image->image))){
+                        unlink(public_path("/uploads/".$image->image));
+                    }
+                    return response()->json(["status"=>200, "message"=>"Image deleted successfully"]);
+                }else{
+                    return response()->json(["status"=>500, "message"=>"Something went wrong !"]);
+                }
+            }
+            else{
+                return response()->json(["status"=>500, "message"=>"Image is alreday deleted !"]);
+            }
+
+        }
+    }
+
+
+
 }

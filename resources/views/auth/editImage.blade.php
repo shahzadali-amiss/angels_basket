@@ -39,21 +39,21 @@
                                         <label for="type">Type</label>
                                         <select id="type" class="form-control" name="type">
                                             <option selected="" value="" disabled>Choose type</option>
-                                            <option @if($item->type=='Product'){{'selected'}}@endif>Product</option>
-                                            <option @if($item->type=='Category'){{'selected'}}@endif>Category</option>
+                                            <!-- <option @if($item->type=='Product'){{'selected'}}@endif>Product</option>
+                                            <option @if($item->type=='Category'){{'selected'}}@endif>Category</option> -->
                                             <option @if($item->type=='Instagram'){{'selected'}}@endif>Instagram</option>
                                         </select>
                                         @error('type')
                                             <div class="small text-danger">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="type-id">Type ID</label>
                                         <input type="number" class="form-control" id="type-id" name="type_id" placeholder="Enter type id" value="{{$item->type_id}}">
                                         @error('type_id')
                                             <div class="small text-danger">{{$message}}</div>
                                         @enderror
-                                    </div>
+                                    </div> -->
                                     
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary px-5">Submit</button>

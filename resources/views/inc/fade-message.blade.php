@@ -16,6 +16,15 @@
   </div>
 @endif
 
+
+  <div class="alert alert-success fix-message d-none" id="image-delete-success">
+      <p class="msg" id="success-message"> </p>
+  </div>
+
+  <div class="alert alert-danger fix-message d-none" id="image-delete-failed">
+      <p class="msg" id="failed-message"> </p>
+  </div>
+
 @push('scripts')
 <script>
 	jQuery(document).ready(function($){

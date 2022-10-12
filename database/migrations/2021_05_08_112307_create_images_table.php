@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('image');
             $table->string('type');
-            $table->integer('type_id');
+            $table->integer('type_id')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('s_des');
             $table->string('l_des');
+            $table->string('image');
             $table->integer('cat_id');
             $table->integer('price');
             $table->integer('offer_price')->nullable();

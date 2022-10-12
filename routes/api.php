@@ -1,7 +1,9 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
+use App\Http\Controllers\HomeController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-cities-from-state/{id}', [Controller::class, 'getcitiesfromstate']);
+
+
+Route::get('delete-image/{id}', [Controller::class, 'deleteImage'])->name('delete-image');

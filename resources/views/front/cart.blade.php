@@ -24,7 +24,7 @@
             			@foreach($carts as $key => $cart)
                   <div class="table-row">
             				<div class="details">
-            					<img src="{{asset('uploads')}}/{{$cart->getProductImage->image}}" width="60px" alt="cake">{{ucwords($cart->getProduct->name)}}
+            					<img src="{{asset('uploads')}}/{{$cart->getProduct->image}}" width="60px" alt="cake">{{ucwords($cart->getProduct->name)}}
             				</div>
             				<div class="quantity">
              	 				<input type="button" class="minus_in_qnt" value="-">

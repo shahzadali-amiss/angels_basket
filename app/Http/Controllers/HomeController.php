@@ -53,13 +53,14 @@ class HomeController extends Controller
         }
         else
         {
-          $item=Product::find($id);
+          $item=Product::where('id', $id)->with('images')->get()->first();
           $data['item']=$item;
           $data['title']="Edit product";
           $data['category']=Category::all();
           return view('auth.editProduct', $data);
         }
       }else{
+        if($id==null){
         $request->validate([
           'pname'  => 'required',
           'category'  => 'required',
@@ -67,44 +68,47 @@ class HomeController extends Controller
           'status'  => 'required',
           's_des'  => 'required',
           'l_des'  => 'required',
+          'file'  => 'required|image|max:2048'
         ]);
-
-        if($id==null){
-          $request->validate([
-          'file' => 'required|image|max:2048'
-          ]);
-          $product = new Product;  
-        }else{
-          $product = Product::find($id); 
-          // dd($request->status);
-        }
-        $product->name=$request->pname;
-        $product->l_des=$request->l_des;
-        $product->s_des=$request->s_des;
-        $product->cat_id=$request->category;
-        $product->price=$request->price;
-        $product->offer_price=$request->offerprice;
-        $product->status=$request->status;
-
-        if($id==null){
-          $item = new Images;  
-        }
-        else{
-          $item = Images::where('type_id',$id)->first(); 
-        }
-        
-        if($request->file!=null){
-          $file = $this->uploadFile($request->file);
-          $item->image = $file;
-        }
-
+          $product = new Product; 
+            if($request->file!=null){
+              $file = $this->uploadFile($request->file);
+              $product->image = $file;
+            }
+            $product->name=$request->pname;
+            $product->l_des=$request->l_des;
+            $product->s_des=$request->s_des;
+            $product->cat_id=$request->category;
+            $product->price=$request->price;
+            $product->offer_price=$request->offerprice;
+            $product->status=$request->status;
                 
-        $item->type = "Product";
-        $product->save();
-
-        $item->type_id=$product->id;
+        }else{
+          $request->validate([
+          'pname'  => 'required',
+          'category'  => 'required',
+          'price'  => 'required',
+          'status'  => 'required',
+          's_des'  => 'required',
+          'l_des'  => 'required',
+          // 'file'  => 'required|image|max:2048'
+        ]);
+          $product = Product::find($id);
+          if($request->file!=null){
+              $file = $this->uploadFile($request->file);
+              $product->image = $file;
+            } 
+          // dd($request->all());
+          $product->name=$request->pname;
+          $product->l_des=$request->l_des;
+          $product->s_des=$request->s_des;
+          $product->cat_id=$request->category;
+          $product->price=$request->price;
+          $product->offer_price=$request->offerprice;
+          $product->status=$request->status;
+        }
     
-        if($item->save()){
+        if($product->save()){
           return redirect()->route('products')->with('success','Product Save successfully');
         }
       }
@@ -113,21 +117,31 @@ class HomeController extends Controller
 
     function deleteProduct(Request $request, $id=null)
     {
-        if($id>0){
 
-            $item=Product::where('id',$id);
-            if($item->delete()){
-                return redirect()->route('products')->with('status', 'Product Deleted successfully');    
+      if($id!=null && $id!=""){
+            $product = Product::find($id);
+            if($product!=null){
+                if($product->delete()){
+                    if(file_exists(public_path("/uploads/".$product->image))){
+                        unlink(public_path("/uploads/".$product->image));
+                    }
+                    return back()->with('status', 'Product Deleted successfully');
+                }else{
+                    return back()->with('error', 'Something went wrong !');
+                }
             }
-            else
-              return redirect()->route('products')->with('error', 'Product Already Deleted');
+            else{
+                return back()->with('error', 'Product Already Deleted');
+            }
+
         }
+
     }
 
 
     public function category()
     {
-        $data['category']=Category::orderBy('id', 'DESC')->with('image')->get();
+        $data['category']=Category::orderBy('id', 'DESC')->get();
         return view('auth.category',$data);
     }
 
@@ -148,68 +162,73 @@ class HomeController extends Controller
                 return view('auth.editCategory', $data);
             }
         }
-        elseif ($request->isMethod('post')) {
+        elseif($request->isMethod('post')) {
 
-          $request->validate([
-          'catname'  => 'required',
-         ]);
+            if($id==null){
+              $request->validate([
+                'catname'  => 'required',
+                'file' => 'required|max:2048',
+             ]);
+              $category = new Category; 
 
-        if($id==null){
-          $request->validate([
-          'file' => 'required|max:2048',
-         ]);
-          $category = new Category;  
-        }
-        else{
-          $category = Category::find($id); 
-        }
-        $category->name=$request->catname;
-        $category->cat_description=$request->cat_des;
-        $category->parent_id=$request->parent_id;
+              if($request->file!=null){
+              $file = $this->uploadFile($request->file);
+              $category->image = $file;
+              } 
+              $category->name=$request->catname;
+              $category->cat_description=$request->cat_des;
+              $category->parent_id=$request->parent_id;
+            }
+            else{
+               $request->validate([
+                'catname'  => 'required',
+                // 'file'  => 'required|image|max:2048',
+               ]);
+              $category = Category::find($id); 
+              
+              // dd($request->all());
+              if($request->file!=null){
+                  $file = $this->uploadFile($request->file);
+                  $category->image = $file;
+                } 
+              $category->name=$request->catname;
+              $category->cat_description=$request->cat_des;
+              $category->parent_id=$request->parent_id;
+            }
         
-        if($id==null){
-          $item = new Images;  
-        }
-        else{
-          $item = Images::where('type_id',$id)->first(); 
-        }
-        
-        if($request->file!=null){
-          $file = $this->uploadFile($request->file);
-          $item->image = $file;
-        }
-
-                
-            $item->type = "Category";
-            $category->save();
-
-            $item->type_id=$category->id;
-        
-            if($item->save()){
+            if($category->save()){
                return redirect()->route('categories')->with('success', 'Category Save successfully');
           }else{
             return back()->with('error', 'Something went wrong !');
           }
       }
 
-    }
-    
+    }  
 
     function deleteCategory(Request $request, $id=null)
     {
-        if($id>0){
-            $item=Category::where('id',$id);
-            if($item->delete()){
-                return redirect()->route('categories')->with('success', 'Category Deleted successfully');;    
-            }else{
-                return back()->with('error', 'Category Already Deleted !');
+        if($id!=null && $id!=""){
+            $category = Category::find($id);
+            if($category!=null){
+                if($category->delete()){
+                    if(file_exists(public_path("/uploads/".$category->image))){
+                        unlink(public_path("/uploads/".$category->image));
+                    }
+                    return back()->with('status', 'Category Deleted successfully');
+                }else{
+                    return back()->with('error', 'Something went wrong !');
+                }
             }
+            else{
+                return back()->with('error', 'Category Already Deleted');
+            }
+
         }
     }
 
     public function viewImages()
     {
-        $data['images']=Images::orderBy('id', 'DESC')->get();
+        $data['images']=Images::orderBy('id', 'DESC')->where('type', 'Instagram')->get();
         return view('auth.viewimages',$data);
     }
 
@@ -235,7 +254,7 @@ class HomeController extends Controller
 
           $request->validate([
           'type'  => 'required',
-          'type_id'  => 'required',
+          // 'type_id'  => 'required',
          ]);
         if($id==null){
           $request->validate([
@@ -266,10 +285,15 @@ class HomeController extends Controller
     {
         if($id>0){
 
-            $item=Images::where('id',$id);
+            $item=Images::find($id);
             if($item->delete()){
+              if(file_exists(public_path("/uploads/".$item->image))){
+                        unlink(public_path("/uploads/".$item->image));
+                    }
                 return redirect()->route('viewImages')->with('success','Image Deleted successfully');    
-            }
+            }else{
+                    return back()->with('error', 'Something went wrong !');
+                }
         } 
     }
 
@@ -380,5 +404,40 @@ class HomeController extends Controller
       }
       return back()->with('error','Customer not found.');
     }
+
+
+    public function productImage(Request $request){
+        // dd($request->all());
+        $status = 0;
+        foreach ($request->image as $img) {
+            // $request->validate([
+            //         'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            //         'type'  => 'required',
+            //     'type_id'  => 'required',
+            //     ]);
+            $photo = new Images();
+            // if ($request->hasfile('image')) {
+                $file = $img;
+                $extention = $file->getClientOriginalExtension();
+                $file_name = rand(10000,50000).time().'.'.$extention;
+                $file->move('uploads/',$file_name);
+                $photo->image = $file_name;
+                $photo->type=$request->type;
+                $photo->type_id=$request->type_id;
+
+                if($photo->save())
+                    $status += 1;
+        }
+        if($status>0){
+            return back()->with('success', 'Image Added successfully');
+        }else{
+
+            return back()->with('error', 'Somthing went wrong !');
+
+        }
+    }
+
+
+
 
 }

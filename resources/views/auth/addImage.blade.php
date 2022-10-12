@@ -38,21 +38,21 @@
                                         <label for="type">Type</label>
                                         <select id="type" class="form-control" name="type">
                                             <option selected="" value="" disabled>Choose type</option>
-                                            <option>Product</option>
-                                            <option>Category</option>
+                                            <!-- <option>Product</option> -->
+                                            <!-- <option>Category</option> -->
                                             <option>Instagram</option> 
                                         </select>
                                         @error('type')
                                             <div class="small text-danger">{{$message}}</div>
                                         @enderror
                                     </div>
-					                <div class="form-group">
+					                <!-- <div class="form-group">
                                         <label for="type-id">Type ID</label>
                                         <input type="number" class="form-control" id="type-id" name="type_id" placeholder="Enter type id">
                                         @error('type_id')
                                             <div class="small text-danger">{{$message}}</div>
                                         @enderror
-                                    </div>
+                                    </div> -->
 					                
 					                <div class="text-center">
 					                    <button type="submit" class="btn btn-primary px-5">Submit</button>

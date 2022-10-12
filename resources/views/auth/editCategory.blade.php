@@ -58,13 +58,10 @@
 					                <div class="form-group">
 					                    <label for="file">Select category image: </label>
 					                    <input type="file" name="file" id="file"> 
-                                        {{--@foreach($images as $img)
-                                             <img src="@if($item->id==$img->type_id){{asset('uploads')}}/{{$img->image}}@endif" class="img-fluid product-img-border ">
-                                        @endforeach --}}
-                                        <img src="{{asset('uploads')}}/{{$item->file}}">
                                         @error('file')
                                             <div class="small text-danger">{{$message}}</div>
                                         @enderror
+                                         <img src="{{asset('uploads')}}/{{$item->image}}" class="img-fluid product-img-border d-block" width="100">
 					                </div>
 					                <div class="text-center">
 					                    <button type="submit" class="btn btn-primary px-5">Submit</button>

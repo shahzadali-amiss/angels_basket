@@ -13543,5 +13543,5 @@ input.my-check{
 .product-img-border{
     border-radius: 5%;
     border: 1px solid #ddd;
-    /*padding: px;*/
+    padding: 5px;
 }
